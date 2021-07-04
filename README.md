@@ -95,7 +95,7 @@ idf.py flash
 ## WiFi Setting
 ![config-wifi](https://user-images.githubusercontent.com/6020549/124376436-f3be0100-dce1-11eb-8c75-a88255f40ed3.jpg)
 
-You can use Staic IP.   
+You can use Static IP.   
 ![config-static](https://user-images.githubusercontent.com/6020549/124376437-f587c480-dce1-11eb-80f5-efc9819d8c91.jpg)
 
 You can connect using mDNS name.   
