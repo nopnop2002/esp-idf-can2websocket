@@ -1,6 +1,6 @@
 # esp-idf-can-browser
 Brows CAN-Frame using esp-idf.   
-You can brows CAN-Frame using built-in http server.   
+You can brows CAN-Frame using built-in HTTP server.   
 Similar to [this](https://github.com/nopnop2002/esp-idf-can2http), but this project uses the ESP32's built-in HTTP server.
 
 ![browser-1](https://user-images.githubusercontent.com/6020549/124376395-cf622480-dce1-11eb-9b24-2f69c4a7675b.jpg)
