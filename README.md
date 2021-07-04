@@ -1,7 +1,6 @@
 # esp-idf-can-browser
-Brows CAN-Frame using esp-idf.
-You can brows CAN-FRAME using built-in http server.
-
+Brows CAN-Frame using esp-idf.   
+You can brows CAN-Frame using built-in http server.   
 ![browser-1](https://user-images.githubusercontent.com/6020549/124376395-cf622480-dce1-11eb-9b24-2f69c4a7675b.jpg)
 
 # Software requirement
@@ -96,10 +95,10 @@ idf.py flash
 ## WiFi Setting
 ![config-wifi](https://user-images.githubusercontent.com/6020549/124376436-f3be0100-dce1-11eb-8c75-a88255f40ed3.jpg)
 
-You can use Staic IP.
+You can use Staic IP.   
 ![config-static](https://user-images.githubusercontent.com/6020549/124376437-f587c480-dce1-11eb-80f5-efc9819d8c91.jpg)
 
-You can connect using mDNS name.
+You can connect using mDNS name.   
 ![config-mDNS](https://user-images.githubusercontent.com/6020549/124376438-f7518800-dce1-11eb-9fc9-ca97921ebf22.jpg)
 ![browser-2](https://user-images.githubusercontent.com/6020549/124376400-d12be800-dce1-11eb-8c24-46fda2fa4283.jpg)
 
@@ -123,9 +122,16 @@ E,103,Gas Pressure
 ```
 
 # Format conversion   
+- Binary   
 ![format-binary](https://user-images.githubusercontent.com/6020549/124376467-1d772800-dce2-11eb-900c-4492f0dd65ce.jpg)
+
+- Octal   
 ![format-octal](https://user-images.githubusercontent.com/6020549/124376473-1f40eb80-dce2-11eb-8f0c-12e1841ad9b1.jpg)
+
+- Decimal   
 ![format-decimal](https://user-images.githubusercontent.com/6020549/124376476-21a34580-dce2-11eb-8f30-e4d5f5c16a53.jpg)
+
+- Hexadecimal   
 ![format-hex](https://user-images.githubusercontent.com/6020549/124376478-22d47280-dce2-11eb-8aff-aaeff4eeb2cb.jpg)
 
 # Troubleshooting   
