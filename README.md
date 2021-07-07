@@ -104,7 +104,7 @@ You can use Static IP.
 You can connect using mDNS name.   
 ![config-mDNS](https://user-images.githubusercontent.com/6020549/124376438-f7518800-dce1-11eb-9fc9-ca97921ebf22.jpg)
 
-Connect to built-in http server using mDNS.   
+Connect to built-in HTTP server using mDNS.   
 ![browser-2](https://user-images.githubusercontent.com/6020549/124376400-d12be800-dce1-11eb-8c24-46fda2fa4283.jpg)
 
 ## HTTP Server Setting
