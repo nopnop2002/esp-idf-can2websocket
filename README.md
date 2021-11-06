@@ -119,7 +119,7 @@ You can use Static IP.
 
 You can connect using mDNS name.   
 ![config-mDNS](https://user-images.githubusercontent.com/6020549/124376438-f7518800-dce1-11eb-9fc9-ca97921ebf22.jpg)
-![mDNS](https://user-images.githubusercontent.com/6020549/140626381-00c62ab3-bd69-4734-be5c-60a01264fd88.jpg)
+![mDNS](https://user-images.githubusercontent.com/6020549/140626470-20629948-fe89-46ae-ba2e-a4b8032d9778.jpg)
 
 
 # Definition CANbus Frame
