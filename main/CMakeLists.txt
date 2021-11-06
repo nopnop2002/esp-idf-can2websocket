@@ -1,4 +1,7 @@
-set(COMPONENT_SRCS "main.c" "http_server.c" "twai.c")
-set(COMPONENT_ADD_INCLUDEDIRS ".")
-
-register_component()
+idf_component_register(SRCS "main.c" "twai.c"
+    INCLUDE_DIRS "."
+    EMBED_FILES "../html/error.html"
+								"../html/favicon.ico"
+								"../html/main.js"
+								"../html/root.html"
+								"../html/main.css")

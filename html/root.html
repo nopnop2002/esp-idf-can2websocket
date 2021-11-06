@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+		<!--
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+		<meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+		-->
+		<link rel="stylesheet" type="text/css" href="main.css" />
+		<title>WebSerial</title>
+	</head>
+	<body>
+		<label>Data Format:</label>
+		<button id="binaryBtn" onclick="sendText('format-binary')">Binary</button>
+		<button id="octalBtn" onclick="sendText('format-octal')">Octal</button>
+		<button id="decimalBtn" onclick="sendText('format-decimal')">Decimal</button>
+		<button id="hexadecimalBtn" onclick="sendText('format-hexadecimal')">Hexadecimal</button>
+		<div>
+			<label for="maxrow">Number of display rows:</label>
+			<input id="maxrow" name="maxrow" type="number" min="10" value="10" onchange="changeRow()">
+		</div>
+		<label>Refresh:</label>
+		<button id="pauseBtn" onclick="sendText('pause-request')">Pause</button>
+		<button id="resumeBtn" onclick="sendText('resume-request')">Resume</button>
+		<hr>
+		<table border="1" id="targetTable">
+			<thead>
+				<tr>
+					<th>Tick</th><th>Frame Type</th><th>Frame ID</th><th>Name</th><th colspan="8">Data</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+		<script type="text/javascript" src="main.js"></script>
+	</body>
+</html>

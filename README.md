@@ -1,13 +1,17 @@
 # esp-idf-can-browser
 Brows CAN-Frame using esp-idf.   
-You can brows CAN-Frame using built-in HTTP server.   
+You can browse the CAN-Frame in __real time__ using the built-in HTTP server.   
 Similar to [this](https://github.com/nopnop2002/esp-idf-can2http), but this project uses the ESP32's built-in HTTP server.
 
-![browser-1](https://user-images.githubusercontent.com/6020549/124376395-cf622480-dce1-11eb-9b24-2f69c4a7675b.jpg)
+![format-binary](https://user-images.githubusercontent.com/6020549/140626005-ed586eef-3cb4-47e0-9d31-e97df281b09a.jpg)
 
+I used [this](https://github.com/Molorius/esp32-websocket) component.   
+This component can communicate directly with the browser.   
+There is an example of using the component [here](https://github.com/Molorius/ESP32-Examples).
+It's a great job.   
 
 # Software requirement
-esp-idf v4.2-dev-2243 or later.   
+esp-idf v4.2 or later.   
 Use twai(Two-Wire Automotive Interface) driver instead of can driver.   
 
 # Hardware requirements
@@ -74,6 +78,7 @@ Check [here](http://www.ti.com/lit/an/slla337/slla337.pdf).
 ```
 git clone https://github.com/nopnop2002/esp-idf-can-browser
 cd esp-idf-can-browser
+git clone https://github.com/Molorius/esp32-websocket components/websocket
 idf.py set-target esp32
 idf.py menuconfig
 idf.py flash
@@ -83,6 +88,7 @@ idf.py flash
 ```
 git clone https://github.com/nopnop2002/esp-idf-can-browser
 cd esp-idf-can-browser
+git clone https://github.com/Molorius/esp32-websocket components/websocket
 idf.py set-target esp32s2
 idf.py menuconfig
 idf.py flash
@@ -92,6 +98,7 @@ idf.py flash
 ```
 git clone https://github.com/nopnop2002/esp-idf-can-browser
 cd esp-idf-can-browser
+git clone https://github.com/Molorius/esp32-websocket components/websocket
 idf.py set-target esp32c3
 idf.py menuconfig
 idf.py flash
@@ -99,7 +106,7 @@ idf.py flash
 
 # Configuration
 ![config-main](https://user-images.githubusercontent.com/6020549/124376412-dee16d80-dce1-11eb-8f32-e12ef4c29f9f.jpg)
-![config-app](https://user-images.githubusercontent.com/6020549/124376415-e0129a80-dce1-11eb-953a-89827f9619d9.jpg)
+![config-app](https://user-images.githubusercontent.com/6020549/140625989-cbad6cf9-937d-4319-aaa4-b491c80efef9.jpg)
 
 ## CAN Setting
 ![config-can](https://user-images.githubusercontent.com/6020549/124376426-ea349900-dce1-11eb-99fd-d8b5609d4178.jpg)
@@ -116,8 +123,6 @@ You can connect using mDNS name.
 Connect to built-in HTTP server using mDNS.   
 ![browser-2](https://user-images.githubusercontent.com/6020549/124376400-d12be800-dce1-11eb-8c24-46fda2fa4283.jpg)
 
-## HTTP Server Setting
-![config-http](https://user-images.githubusercontent.com/6020549/124376453-09332b00-dce2-11eb-90c7-4576564f9ffc.jpg)
 
 # Definition CANbus Frame
 When CANbus data is received, it is sent by built-in HTTP server according to csv/can2http.csv.   
@@ -137,16 +142,16 @@ E,103,Gas Pressure
 
 # Format conversion   
 - Binary   
-![format-binary](https://user-images.githubusercontent.com/6020549/124376467-1d772800-dce2-11eb-900c-4492f0dd65ce.jpg)
+![format-binary](https://user-images.githubusercontent.com/6020549/140626005-ed586eef-3cb4-47e0-9d31-e97df281b09a.jpg)
 
 - Octal   
-![format-octal](https://user-images.githubusercontent.com/6020549/124376473-1f40eb80-dce2-11eb-8f0c-12e1841ad9b1.jpg)
+![format-octal](https://user-images.githubusercontent.com/6020549/140626012-92de1550-c3ef-4345-a7f7-f5f2317a1cc8.jpg)
 
 - Decimal   
-![format-decimal](https://user-images.githubusercontent.com/6020549/124376476-21a34580-dce2-11eb-8f30-e4d5f5c16a53.jpg)
+![format-decimal](https://user-images.githubusercontent.com/6020549/140626018-43ceef90-5c34-4fad-b603-f13fe833568c.jpg)
 
 - Hexadecimal   
-![format-hex](https://user-images.githubusercontent.com/6020549/124376478-22d47280-dce2-11eb-8aff-aaeff4eeb2cb.jpg)
+![format-hex](https://user-images.githubusercontent.com/6020549/140626028-8a26e474-9e73-490b-b2d2-e32718f428d7.jpg)
 
 # Troubleshooting   
 There is a module of SN65HVD230 like this.   
@@ -167,6 +172,10 @@ If the transmission fails, these are the possible causes.
 - There are three terminating resistors on the CanBus.
 - The resistance value of the terminating resistor is incorrect.
 - Stub length in CAN bus is too long. See [here](https://e2e.ti.com/support/interface-group/interface/f/interface-forum/378932/iso1050-can-bus-stub-length).
+
+# WEB Page   
+The WEB page is stored in the html folder.   
+You can change it as you like.   
 
 # Reference
 

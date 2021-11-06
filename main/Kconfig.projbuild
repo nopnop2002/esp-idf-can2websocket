@@ -125,14 +125,4 @@ menu "Application Configuration"
 
 	endmenu
 
-	menu "HTTP Server Setting"
-
-		config WEB_PORT
-			int "HTTP Server Port"
-			default 8000
-			help
-				HTTP server port to use.
-
-	endmenu
-
 endmenu
