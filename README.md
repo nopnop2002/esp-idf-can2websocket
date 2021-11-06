@@ -111,6 +111,9 @@ idf.py flash
 ## CAN Setting
 ![config-can](https://user-images.githubusercontent.com/6020549/124376426-ea349900-dce1-11eb-99fd-d8b5609d4178.jpg)
 
+Display all received frames to STDOUT.
+![stdout](https://user-images.githubusercontent.com/6020549/140626592-7a16386a-1846-4cce-a1ea-068c38b80332.jpg)
+
 ## WiFi Setting
 ![config-wifi](https://user-images.githubusercontent.com/6020549/124376436-f3be0100-dce1-11eb-8c75-a88255f40ed3.jpg)
 
