@@ -894,7 +894,10 @@ void app_main()
 				}
 
 			} // end of receive-data
-		}
-	}
+		} // end of if
+
+		// Delete a cJSON structure
+		cJSON_Delete(root);
+	} // end of while
 
 }
