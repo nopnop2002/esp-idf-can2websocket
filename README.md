@@ -74,35 +74,16 @@ __NOTE__
 Check [here](http://www.ti.com/lit/an/slla337/slla337.pdf).
 
 
-# Installation for ESP32
+# Installation
 ```
 git clone https://github.com/nopnop2002/esp-idf-can-browser
 cd esp-idf-can-browser
 git clone https://github.com/Molorius/esp32-websocket components/websocket
-idf.py set-target esp32
+idf.py set-target {esp32/esp32s2/esp32c3}
 idf.py menuconfig
 idf.py flash
 ```
 
-# Installation for ESP32-S2
-```
-git clone https://github.com/nopnop2002/esp-idf-can-browser
-cd esp-idf-can-browser
-git clone https://github.com/Molorius/esp32-websocket components/websocket
-idf.py set-target esp32s2
-idf.py menuconfig
-idf.py flash
-```
-
-# Installation for ESP32-C3
-```
-git clone https://github.com/nopnop2002/esp-idf-can-browser
-cd esp-idf-can-browser
-git clone https://github.com/Molorius/esp32-websocket components/websocket
-idf.py set-target esp32c3
-idf.py menuconfig
-idf.py flash
-```
 
 # Configuration
 ![config-main](https://user-images.githubusercontent.com/6020549/124376412-dee16d80-dce1-11eb-8f32-e12ef4c29f9f.jpg)
