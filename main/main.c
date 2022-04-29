@@ -56,23 +56,23 @@ int16_t	npublish;
 static void event_handler(void* arg, esp_event_base_t event_base,
 																int32_t event_id, void* event_data)
 {
-		if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
-				esp_wifi_connect();
-		} else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
-				if (s_retry_num < CONFIG_ESP_MAXIMUM_RETRY) {
-						esp_wifi_connect();
-						s_retry_num++;
-						ESP_LOGI(TAG, "retry to connect to the AP");
-				} else {
-						xEventGroupSetBits(s_wifi_event_group, WIFI_FAIL_BIT);
-				}
-				ESP_LOGI(TAG,"connect to the AP fail");
-		} else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
-				ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
-				ESP_LOGI(TAG, "got ip:" IPSTR, IP2STR(&event->ip_info.ip));
-				s_retry_num = 0;
-				xEventGroupSetBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
+	if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
+		esp_wifi_connect();
+	} else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
+		if (s_retry_num < CONFIG_ESP_MAXIMUM_RETRY) {
+			esp_wifi_connect();
+			s_retry_num++;
+			ESP_LOGI(TAG, "retry to connect to the AP");
+		} else {
+			xEventGroupSetBits(s_wifi_event_group, WIFI_FAIL_BIT);
 		}
+		ESP_LOGI(TAG,"connect to the AP fail");
+	} else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
+		ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
+		ESP_LOGI(TAG, "got ip:" IPSTR, IP2STR(&event->ip_info.ip));
+		s_retry_num = 0;
+		xEventGroupSetBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
+	}
 }
 
 void wifi_init_sta(void)
@@ -347,7 +347,7 @@ esp_err_t build_table(TOPIC_t **topics, char *file, int16_t *ntopic)
 void dump_table(TOPIC_t *topics, int16_t ntopic)
 {
 	for(int i=0;i<ntopic;i++) {
-		ESP_LOGI(pcTaskGetTaskName(0), "topics[%d] frame=%d canid=0x%x name=[%s] name_len=%d",
+		ESP_LOGI(pcTaskGetName(0), "topics[%d] frame=%d canid=0x%x name=[%s] name_len=%d",
 		i, (topics+i)->frame, (topics+i)->canid, (topics+i)->name, (topics+i)->name_len);
 	}
 
@@ -736,10 +736,13 @@ void app_main()
 	dump_table(publish, npublish);
 
 	/* Get the local IP address */
-	tcpip_adapter_ip_info_t ip_info;
-	ESP_ERROR_CHECK(tcpip_adapter_get_ip_info(TCPIP_ADAPTER_IF_STA, &ip_info));
+	//tcpip_adapter_ip_info_t ip_info;
+	//ESP_ERROR_CHECK(tcpip_adapter_get_ip_info(TCPIP_ADAPTER_IF_STA, &ip_info));
+	esp_netif_ip_info_t ip_info;
+	ESP_ERROR_CHECK(esp_netif_get_ip_info(esp_netif_get_handle_from_ifkey("WIFI_STA_DEF"), &ip_info));
 	char cparam0[64];
-	sprintf(cparam0, "%s", ip4addr_ntoa(&ip_info.ip));
+	//sprintf(cparam0, "%s", ip4addr_ntoa(&ip_info.ip));
+	sprintf(cparam0, IPSTR, IP2STR(&ip_info.ip));
 
 	ws_server_start();
 	xTaskCreate(&server_task, "server_task", 1024*2, (void *)cparam0, 9, NULL);

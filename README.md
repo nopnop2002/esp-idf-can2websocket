@@ -21,7 +21,7 @@ Use twai(Two-Wire Automotive Interface) driver instead of can driver.
 I used 150 ohms.   
 
 # Wireing   
-|SN65HVD23x||ESP32|ESP32-S2|ESP32-C3||
+|SN65HVD23x||ESP32|ESP32-S2/S3|ESP32-C3||
 |:-:|:-:|:-:|:-:|:-:|:-:|
 |D(CTX)|--|GPIO21|GPIO17|GPIO9|(*1)|
 |GND|--|GND|GND|GND||
@@ -79,7 +79,7 @@ Check [here](http://www.ti.com/lit/an/slla337/slla337.pdf).
 git clone https://github.com/nopnop2002/esp-idf-can-browser
 cd esp-idf-can-browser
 git clone https://github.com/Molorius/esp32-websocket components/websocket
-idf.py set-target {esp32/esp32s2/esp32c3}
+idf.py set-target {esp32/esp32s2/esp32s3/esp32c3}
 idf.py menuconfig
 idf.py flash
 ```
