@@ -11,8 +11,8 @@ There is an example of using the component [here](https://github.com/Molorius/ES
 It's a great job.   
 
 # Software requirement
-esp-idf v4.2 or later.   
-Use twai(Two-Wire Automotive Interface) driver instead of can driver.   
+esp-idf v4.4 or later.   
+This is because this version supports ESP32-C3.   
 
 # Hardware requirements
 - SN65HVD23x CAN-BUS Transceiver   
