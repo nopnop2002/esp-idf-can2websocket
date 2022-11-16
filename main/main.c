@@ -6,7 +6,8 @@
 	 CONDITIONS OF ANY KIND, either express or implied.
 */
 
-#include "string.h"
+#include <stdio.h>
+#include <inttypes.h>
 #include <stdlib.h>
 #include <string.h>
 #include "freertos/FreeRTOS.h"
@@ -347,7 +348,7 @@ esp_err_t build_table(TOPIC_t **topics, char *file, int16_t *ntopic)
 void dump_table(TOPIC_t *topics, int16_t ntopic)
 {
 	for(int i=0;i<ntopic;i++) {
-		ESP_LOGI(pcTaskGetName(0), "topics[%d] frame=%d canid=0x%x name=[%s] name_len=%d",
+		ESP_LOGI(pcTaskGetName(0), "topics=[%d] frame=%d canid=0x%"PRIx32" topic=[%s] topic_len=%d",
 		i, (topics+i)->frame, (topics+i)->canid, (topics+i)->name, (topics+i)->name_len);
 	}
 
@@ -382,10 +383,10 @@ void websocket_callback(uint8_t num,WEBSOCKET_TYPE_t type,char* msg,uint64_t len
 			}
 			break;
 		case WEBSOCKET_BIN:
-			ESP_LOGI(TAG,"client %i sent binary message of size %i:\n%s",num,(uint32_t)len,msg);
+			ESP_LOGI(TAG,"client %i sent binary message of size %"PRIi32":\n%s",num,(uint32_t)len,msg);
 			break;
 		case WEBSOCKET_PING:
-			ESP_LOGI(TAG,"client %i pinged us with message of size %i:\n%s",num,(uint32_t)len,msg);
+			ESP_LOGI(TAG,"client %i pinged us with message of size %"PRIi32":\n%s",num,(uint32_t)len,msg);
 			break;
 		case WEBSOCKET_PONG:
 			ESP_LOGI(TAG,"client %i responded to the ping",num);
@@ -597,7 +598,7 @@ static int makeSendFrame(char* buf, int format, TickType_t tick, FRAME_t frame)
 {
 	ESP_LOGD(TAG, "makeSendFrame format=%d", format);
 	char DEL = 0x04;
-	sprintf(buf,"DATA%c%d", DEL, tick);
+	sprintf(buf,"DATA%c%"PRIi32, DEL, tick);
 	char wk[64];
 	if (frame.ext == STANDARD_FRAME) {
 		sprintf(wk,"%cStandard", DEL);
@@ -605,7 +606,7 @@ static int makeSendFrame(char* buf, int format, TickType_t tick, FRAME_t frame)
 		sprintf(wk,"%cExtended", DEL);
 	}
 	strcat(buf, wk);
-	sprintf(wk,"%c0x%x", DEL, frame.canid);
+	sprintf(wk,"%c0x%"PRIx32, DEL, frame.canid);
 	strcat(buf, wk);
 	sprintf(wk,"%c%.*s", DEL, frame.name_len, frame.name);
 	strcat(buf, wk);
