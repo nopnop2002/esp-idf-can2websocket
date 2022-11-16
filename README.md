@@ -11,7 +11,7 @@ There is an example of using the component [here](https://github.com/Molorius/ES
 It's a great job.   
 
 # Software requirement
-esp-idf v4.4 or later.   
+esp-idf v4.4/v5.0.   
 This is because this version supports ESP32-C3.   
 
 # Hardware requirements
