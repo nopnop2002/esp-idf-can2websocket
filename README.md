@@ -1,7 +1,7 @@
-# esp-idf-can-browser
+# esp-idf-can2websocket
 Brows CAN-Frame using esp-idf.   
 You can browse the CAN-Frame in __real time__ using the built-in HTTP server.   
-Similar to [this](https://github.com/nopnop2002/esp-idf-can2http), but this project uses the ESP32's built-in HTTP server.
+Similar to [this](https://github.com/nopnop2002/esp-idf-can2http), but this project uses the WebSocket protocol instead of the HTTP protocol.   
 
 ![format-binary](https://user-images.githubusercontent.com/6020549/140626005-ed586eef-3cb4-47e0-9d31-e97df281b09a.jpg)
 
@@ -11,8 +11,8 @@ There is an example of using the component [here](https://github.com/Molorius/ES
 It's a great job.   
 
 # Software requirement
-esp-idf v4.4/v5.0.   
-This is because this version supports ESP32-C3.   
+ESP-IDF V4.4/V5.x.   
+ESP-IDF V5.1 is required when using ESP32C6.   
 
 # Hardware requirements
 - SN65HVD23x CAN-BUS Transceiver   
@@ -21,7 +21,7 @@ This is because this version supports ESP32-C3.
 I used 150 ohms.   
 
 # Wireing   
-|SN65HVD23x||ESP32|ESP32-S2/S3|ESP32-C3||
+|SN65HVD23x||ESP32|ESP32-S2/S3|ESP32-C3/C6||
 |:-:|:-:|:-:|:-:|:-:|:-:|
 |D(CTX)|--|GPIO21|GPIO17|GPIO0|(*1)|
 |GND|--|GND|GND|GND||
@@ -76,10 +76,10 @@ Check [here](http://www.ti.com/lit/an/slla337/slla337.pdf).
 
 # Installation
 ```
-git clone https://github.com/nopnop2002/esp-idf-can-browser
-cd esp-idf-can-browser
+git clone https://github.com/nopnop2002/esp-idf-can2websocket
+cd esp-idf-can2websocket
 git clone https://github.com/Molorius/esp32-websocket components/websocket
-idf.py set-target {esp32/esp32s2/esp32s3/esp32c3}
+idf.py set-target {esp32/esp32s2/esp32s3/esp32c3/esp32c6}
 idf.py menuconfig
 idf.py flash
 ```
