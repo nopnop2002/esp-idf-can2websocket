@@ -2,7 +2,7 @@
 Brows CAN-Frame using esp-idf.   
 You can browse the CAN-Frame in __real time__ using the built-in WebSocket server.   
 Similar to [this](https://github.com/nopnop2002/esp-idf-can2http), but this project uses the WebSocket protocol instead of the HTTP protocol.   
-And ESP32 acts as a WebSocket server.   
+ESP32 acts as a WebSocket server.   
 
 ![format-binary](https://user-images.githubusercontent.com/6020549/140626005-ed586eef-3cb4-47e0-9d31-e97df281b09a.jpg)
 
