@@ -26,7 +26,6 @@
 #include "esp_log.h"
 #include "esp_spiffs.h" 
 #include "mdns.h"
-#include "lwip/dns.h"
 #include "cJSON.h"
 
 #include "twai.h"
@@ -586,17 +585,20 @@ static void server_handle_task(void* pvParameters) {
 	vTaskDelete(NULL);
 }
 
-static int makeSendText(char* buf, char* c0, char* c1, char* c2, char* c3)
+static int makeSendText(char* buf, size_t buflen, char* c0, char* c1, char* c2, char* c3)
 {
 	char DEL = 0x04;
 	sprintf(buf,"%s%c%s%c%s%c%s", c0, DEL, c1, DEL, c2, DEL, c3);
 	ESP_LOGD(TAG, "buf=[%s]", buf);
+	if (strlen(buf) > buflen) {
+		ESP_LOGE(TAG, "makeSendText buffer overflow %d", strlen(buf));
+	}
 	return strlen(buf);
 }
 
 #define BCD(c) 5 * (5 * (5 * (5 * (5 * (5 * (5 * (c & 128) + (c & 64)) + (c & 32)) + (c & 16)) + (c & 8)) + (c & 4)) + (c & 2)) + (c & 1)
 
-static int makeSendFrame(char* buf, int format, TickType_t tick, FRAME_t frame)
+static int makeSendFrame(char* buf, size_t buflen, int format, TickType_t tick, FRAME_t frame)
 {
 	ESP_LOGD(TAG, "makeSendFrame format=%d", format);
 	char DEL = 0x04;
@@ -630,6 +632,9 @@ static int makeSendFrame(char* buf, int format, TickType_t tick, FRAME_t frame)
 		strcat(buf, wk);
 	}
 	ESP_LOGD(TAG, "buf=[%s]", buf);
+	if (strlen(buf) > buflen) {
+		ESP_LOGE(TAG, "makeSendFrame buffer overflow %d", strlen(buf));
+	}
 	return strlen(buf);
 }
 
@@ -658,7 +663,7 @@ static void time_task(void* pvParameters) {
 	frame.data[7]=80;
 	while(1) {
 		TickType_t tick = xTaskGetTickCount();
-		int len = makeSendFrame(out, FORMAT_BINARY, tick, frame);
+		int len = makeSendFrame(out, sizeof(out), FORMAT_BINARY, tick, frame);
 		ESP_LOGI(TAG, "makeSendData len=%d", len);
 		int clients = ws_server_send_text_all(out,len);
 		if(clients > 0) {
@@ -763,95 +768,89 @@ void app_main()
 
 			if ( strcmp (id, "init") == 0) {
 #if 1
-				len = makeSendText(out, "BUTTON", "pauseBtn", "visibility", "visible");
-				ESP_LOGI(TAG, "len=%d", len);
+				len = makeSendText(out, sizeof(out), "BUTTON", "pauseBtn", "visibility", "visible");
 				ws_server_send_text_all(out,len);
-				len = makeSendText(out, "BUTTON", "resumeBtn", "visibility", "hidden");
-				ESP_LOGI(TAG, "len=%d", len);
+				len = makeSendText(out, sizeof(out), "BUTTON", "resumeBtn", "visibility", "hidden");
 				ws_server_send_text_all(out,len);
 #else
-				len = makeSendText(out, "BUTTON", "pauseBtn", "display", "block");
+				len = makeSendText(out, sizeof(out), "BUTTON", "pauseBtn", "display", "block");
 				ws_server_send_text_all(out,len);
-				len = makeSendText(out, "BUTTON", "resumeBtn", "display", "none");
+				len = makeSendText(out, sizeof(out), "BUTTON", "resumeBtn", "display", "none");
 				ws_server_send_text_all(out,len);
 #endif
 			} // end of init
 
 			if ( strcmp (id, "format-binary") == 0 || strcmp (id, "init") == 0) {
 				format = FORMAT_BINARY;
-				len = makeSendText(out, "BUTTON", "binaryBtn", "class", "select");
-				ESP_LOGI(TAG, "len=%d", len);
+				len = makeSendText(out, sizeof(out), "BUTTON", "binaryBtn", "class", "select");
 				ws_server_send_text_all(out,len);
 
-				len = makeSendText(out, "BUTTON", "octalBtn", "class", "deselect");
-				ESP_LOGI(TAG, "len=%d", len);
+				len = makeSendText(out, sizeof(out), "BUTTON", "octalBtn", "class", "deselect");
 				ws_server_send_text_all(out,len);
 
-				len = makeSendText(out, "BUTTON", "decimalBtn", "class", "deselect");
-				ESP_LOGI(TAG, "len=%d", len);
+				len = makeSendText(out, sizeof(out), "BUTTON", "decimalBtn", "class", "deselect");
 				ws_server_send_text_all(out,len);
 
-				len = makeSendText(out, "BUTTON", "hexadecimalBtn", "class", "deselect");
-				ESP_LOGI(TAG, "len=%d", len);
+				len = makeSendText(out, sizeof(out), "BUTTON", "hexadecimalBtn", "class", "deselect");
 				ws_server_send_text_all(out,len);
 			} // end of format-binary
 
 			if ( strcmp (id, "format-octal") == 0) {
 				format = FORMAT_OCTAL;
-				len = makeSendText(out, "BUTTON", "binaryBtn", "class", "deselect");
+				len = makeSendText(out, sizeof(out), "BUTTON", "binaryBtn", "class", "deselect");
 				ws_server_send_text_all(out,len);
 
-				len = makeSendText(out, "BUTTON", "octalBtn", "class", "select");
+				len = makeSendText(out, sizeof(out), "BUTTON", "octalBtn", "class", "select");
 				ws_server_send_text_all(out,len);
 
-				len = makeSendText(out, "BUTTON", "decimalBtn", "class", "deselect");
+				len = makeSendText(out, sizeof(out), "BUTTON", "decimalBtn", "class", "deselect");
 				ws_server_send_text_all(out,len);
 
-				len = makeSendText(out, "BUTTON", "hexadecimalBtn", "class", "deselect");
+				len = makeSendText(out, sizeof(out), "BUTTON", "hexadecimalBtn", "class", "deselect");
 				ws_server_send_text_all(out,len);
 			} // end of format-octal
 
 			if ( strcmp (id, "format-decimal") == 0) {
 				format = FORMAT_DECIMAL;
-				len = makeSendText(out, "BUTTON", "binaryBtn", "class", "deselect");
+				len = makeSendText(out, sizeof(out), "BUTTON", "binaryBtn", "class", "deselect");
 				ws_server_send_text_all(out,len);
 
-				len = makeSendText(out, "BUTTON", "octalBtn", "class", "deselect");
+				len = makeSendText(out, sizeof(out), "BUTTON", "octalBtn", "class", "deselect");
 				ws_server_send_text_all(out,len);
 
-				len = makeSendText(out, "BUTTON", "decimalBtn", "class", "select");
+				len = makeSendText(out, sizeof(out), "BUTTON", "decimalBtn", "class", "select");
 				ws_server_send_text_all(out,len);
 
-				len = makeSendText(out, "BUTTON", "hexadecimalBtn", "class", "deselect");
+				len = makeSendText(out, sizeof(out), "BUTTON", "hexadecimalBtn", "class", "deselect");
 				ws_server_send_text_all(out,len);
 			} // end of format-decimal
 
 			if ( strcmp (id, "format-hexadecimal") == 0) {
 				format = FORMAT_HEXADECIMAL;
-				len = makeSendText(out, "BUTTON", "binaryBtn", "class", "deselect");
+				len = makeSendText(out, sizeof(out), "BUTTON", "binaryBtn", "class", "deselect");
 				ws_server_send_text_all(out,len);
 
-				len = makeSendText(out, "BUTTON", "octalBtn", "class", "deselect");
+				len = makeSendText(out, sizeof(out), "BUTTON", "octalBtn", "class", "deselect");
 				ws_server_send_text_all(out,len);
 
-				len = makeSendText(out, "BUTTON", "decimalBtn", "class", "deselect");
+				len = makeSendText(out, sizeof(out), "BUTTON", "decimalBtn", "class", "deselect");
 				ws_server_send_text_all(out,len);
 
-				len = makeSendText(out, "BUTTON", "hexadecimalBtn", "class", "select");
+				len = makeSendText(out, sizeof(out), "BUTTON", "hexadecimalBtn", "class", "select");
 				ws_server_send_text_all(out,len);
 			} // end of format-hexadecimal
 
 			if ( strcmp (id, "pause-request") == 0) {
 				paused = true;
 #if 1
-				len = makeSendText(out, "BUTTON", "pauseBtn", "visibility", "hidden");
+				len = makeSendText(out, sizeof(out), "BUTTON", "pauseBtn", "visibility", "hidden");
 				ws_server_send_text_all(out,len);
-				len = makeSendText(out, "BUTTON", "resumeBtn", "visibility", "visible");
+				len = makeSendText(out, sizeof(out), "BUTTON", "resumeBtn", "visibility", "visible");
 				ws_server_send_text_all(out,len);
 #else
-				len = makeSendText(out, "BUTTON", "pauseBtn", "display", "none");
+				len = makeSendText(out, sizeof(out), "BUTTON", "pauseBtn", "display", "none");
 				ws_server_send_text_all(out,len);
-				len = makeSendText(out, "BUTTON", "resumeBtn", "display", "block");
+				len = makeSendText(out, sizeof(out), "BUTTON", "resumeBtn", "display", "block");
 				ws_server_send_text_all(out,len);
 #endif
 			} // end of pause-request
@@ -859,14 +858,14 @@ void app_main()
 			if ( strcmp (id, "resume-request") == 0) {
 				paused = false;
 #if 1
-				len = makeSendText(out, "BUTTON", "pauseBtn", "visibility", "visible");
+				len = makeSendText(out, sizeof(out), "BUTTON", "pauseBtn", "visibility", "visible");
 				ws_server_send_text_all(out,len);
-				len = makeSendText(out, "BUTTON", "resumeBtn", "visibility", "hidden");
+				len = makeSendText(out, sizeof(out), "BUTTON", "resumeBtn", "visibility", "hidden");
 				ws_server_send_text_all(out,len);
 #else
-				len = makeSendText(out, "BUTTON", "pauseBtn", "display", "block");
+				len = makeSendText(out, sizeof(out), "BUTTON", "pauseBtn", "display", "block");
 				ws_server_send_text_all(out,len);
-				len = makeSendText(out, "BUTTON", "resumeBtn", "display", "none");
+				len = makeSendText(out, sizeof(out), "BUTTON", "resumeBtn", "display", "none");
 				ws_server_send_text_all(out,len);
 #endif
 			} // end of resume-request
@@ -884,7 +883,7 @@ void app_main()
 				array2int(intArray, frame.data, 8);
 				char out[256];
 				TickType_t tick = xTaskGetTickCount();
-				int len = makeSendFrame(out, format, tick, frame);
+				int len = makeSendFrame(out, sizeof(out), format, tick, frame);
 				ESP_LOGI(TAG, "makeSendData len=%d", len);
 				int clients = ws_server_send_text_all(out,len);
 				if(clients > 0) {
