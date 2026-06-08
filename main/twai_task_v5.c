@@ -88,23 +88,20 @@ void twai_task(void *pvParameters)
 	ESP_LOGI(TAG, "CTX_GPIO=%d",CONFIG_CTX_GPIO);
 	ESP_LOGI(TAG, "CRX_GPIO=%d",CONFIG_CRX_GPIO);
 
-	dump_table(publish, npublish);
-
-#if 0
-	static const twai_general_config_t g_config = TWAI_GENERAL_CONFIG_DEFAULT(CONFIG_CTX_GPIO, CONFIG_CRX_GPIO, TWAI_MODE_NORMAL);
-#endif
 	ESP_ERROR_CHECK(twai_driver_install(&g_config, &t_config, &f_config));
 	ESP_LOGI(TAG, "Driver installed");
 	ESP_ERROR_CHECK(twai_start());
 	ESP_LOGI(TAG, "Driver started");
+
+	dump_table(publish, npublish);
 
 	bool running = true;
 	while (running) {
 		twai_message_t rx_msg;
 		esp_err_t ret = twai_receive(&rx_msg, portMAX_DELAY);
 		if (ret == ESP_OK) {
-			ESP_LOGD(TAG,"twai_receive identifier=0x%"PRIu32" flags=0x%"PRIu32" extd=0x%x rtr=0x%x data_length_code=%d",
-				rx_msg.identifier, rx_msg.flags, rx_msg.extd, rx_msg.rtr, rx_msg.data_length_code);
+			ESP_LOGD(TAG,"twai_receive identifier=0x%"PRIu32" extd=0x%x rtr=0x%x data_length_code=%d",
+				rx_msg.identifier, rx_msg.extd, rx_msg.rtr, rx_msg.data_length_code);
 			int canid = rx_msg.identifier;
 			int ext = rx_msg.extd;
 			int rtr = rx_msg.rtr;

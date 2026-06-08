@@ -136,7 +136,7 @@ void twai_task(void *arg)
 			int canid = rx_msg.header.id;
 			int ext = rx_msg.header.ide;
 			int rtr = rx_msg.header.rtr;
-			ESP_LOGD(TAG, "ext=%x rtr=%x", ext, rtr);
+			ESP_LOGD(TAG, "canid=0x%x ext=0x%x rtr=0x%x", canid, ext, rtr);
 
 #if CONFIG_ENABLE_PRINT
 			twai_print_frame(rx_msg);
